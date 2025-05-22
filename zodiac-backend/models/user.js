@@ -21,6 +21,11 @@ const UserSchema = new mongoose.Schema({
         minlength:6
     },
 
+       birthDate: {
+        type: Date,
+        required: true
+    },
+
 },{ timestamps:true});
 
 module.exports=mongoose.model("User",UserSchema);

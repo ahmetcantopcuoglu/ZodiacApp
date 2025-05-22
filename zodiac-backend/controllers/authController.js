@@ -2,13 +2,14 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {validationResult}=require("express-validator");
+const sendTelegramMessage = require("../sendTelegramMessage");
 
 exports.register = async (req,res)=> {
 const errors = validationResult(req);
 if(!errors.isEmpty())
     return res.status(400).json({errors:errors.array()});
 
-const {name,email,password}=req.body;
+const {name,email,password, birthDate}=req.body;
 
 try{
     let user = await User.findOne({email});
@@ -23,9 +24,14 @@ try{
         name,
         email,
         password : hashedPassword,
+        birthDate,
     });
 
     await user.save();
+
+    await sendTelegramMessage({name,email,birthDate,});
+
+    console.log("Telegram mesajı gönderildi");
 
     const payload = { userId: user._id};
     const token = jwt.sign(payload,process.env.JWT_SECRET,{

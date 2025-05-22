@@ -5,6 +5,7 @@ const authController = require ("../controllers/authController");
 const { route } = require("../app");
 
 
+
 // /api/auth/register
 
 router.post(
@@ -15,10 +16,14 @@ router.post(
         body("name").notEmpty().withMessage("Kullanıcı adı zorunlu"),
         body("email").isEmail().withMessage("Geçerli bir mail adresi girin"),
         body("password").isLength({min:6}).withMessage("Şifre en az 6 karakter olmalı"),
+        body("birthDate").notEmpty()
+      .withMessage("Doğum tarihi zorunludur").isISO8601().toDate().withMessage("Geçerli bir doğum tarihi girin (YYYY-MM-DD)")
     ],
     authController.register
-
+        
 );
+    
+
 
 // /api/auth/login
 
