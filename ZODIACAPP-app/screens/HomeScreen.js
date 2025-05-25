@@ -11,8 +11,8 @@ export default function HomeScreen({ navigation }) {
       <ScrollView contentContainerStyle={styles.buttonsContainer}>
         <CustomButton title="📚 Blog Sayfası" onPress={() => navigation.navigate('Blog')} color="#3498db" />
         <CustomButton title="🔮 Burç Yorumları" onPress={() => navigation.navigate('Zodiac')} color="#e67e22" />
-        <CustomButton title="☕ Kahve Falı" onPress={() => navigation.navigate('Coffee')} color="#9b59b6" />
-        <CustomButton title="🃏 Tarot Falı" onPress={() => navigation.navigate('Tarot')} color="#2ecc71" />
+        <CustomButton title="☕ Kahve Falı" onPress={() => navigation.navigate('')} color="#9b59b6" />
+        <CustomButton title="🃏 Tarot Falı" onPress={() => navigation.navigate('TarotSelect')} color="#2ecc71" />
         <CustomButton title="💤 Rüya Yorumcusu" onPress={() => navigation.navigate('Dream')} color="#f39c12" />
       </ScrollView>
     </View>

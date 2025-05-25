@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -8,8 +10,10 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://192.168.1.4:3000/api/auth/login', { email, password });
+      const res = await axios.post('http://192.168.1.2:3000/api/auth/login', { email, password });
       const token = res.data.token;
+
+      await AsyncStorage.setItem('userToken', token);
 
       Alert.alert('Başarılı giriş yapıldı', '', [
         { text: 'Tamam', onPress: () => navigation.navigate('Home') }

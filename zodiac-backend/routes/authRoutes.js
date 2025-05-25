@@ -34,6 +34,7 @@ router.post(
          body("password").exists().withMessage("Şifre zorunlu"),
     ],
     authController.login
+    
 );
 
 module.exports= router;
