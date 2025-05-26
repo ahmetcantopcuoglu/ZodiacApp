@@ -59,7 +59,7 @@ export default function HoroscopeScreen({ route }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get(`http://192.168.1.2:3000/api/zodiac/horoscope`, {
+      const res = await axios.get(`http://192.168.1.7:3000/api/zodiac/horoscope`, {
         params: { sign, period },
       });
       setHoroscope(res.data.horoscope);

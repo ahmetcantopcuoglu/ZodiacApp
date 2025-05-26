@@ -7,17 +7,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const name = res.data.name;
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://192.168.1.2:3000/api/auth/login', { email, password });
+      const res = await axios.post('http://192.168.1.7:3000/api/auth/login', { email, password });
       const token = res.data.token;
 
       await AsyncStorage.setItem('userToken', token);
+     
+      
 
       Alert.alert('Başarılı giriş yapıldı', '', [
-        { text: 'Tamam', onPress: () => navigation.navigate('Home') }
-      ]);
+        { text: 'Tamam', onPress: () => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          });
+        },
+           },
+    ]);
 
     } catch (err) {
       Alert.alert('Hata', 'Giriş Başarısız.');

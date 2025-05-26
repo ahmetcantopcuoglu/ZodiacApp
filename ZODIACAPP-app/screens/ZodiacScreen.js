@@ -22,7 +22,7 @@ export default function ZodiacScreen({ navigation }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://192.168.1.2:3000/api/zodiac/signs') // Gerekirse IP'yi düzenle
+    axios.get('http://192.168.1.7:3000/api/zodiac/signs') // Gerekirse IP'yi düzenle
       .then(res => setSigns(res.data))
       .catch(err => setError('Burçlar yüklenemedi.'));
   }, []);

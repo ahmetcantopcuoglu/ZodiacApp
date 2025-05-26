@@ -42,6 +42,35 @@ router.put(
   }
 );
 
+// Şifre doğrulamalı kullanıcı silme
+router.post(
+  "/delete",
+  authMiddleware,
+  [
+    body("password").notEmpty().withMessage("Şifre gerekli"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+    try {
+      const user = await User.findById(req.user.userId);
+      if (!user) return res.status(404).json({ msg: "Kullanıcı bulunamadı" });
+
+      const isMatch = await bcrypt.compare(req.body.password, user.password);
+      if (!isMatch) return res.status(400).json({ msg: "Şifre yanlış" });
+
+      await User.findByIdAndDelete(req.user.userId);
+
+      res.json({ msg: "Kullanıcı başarıyla silindi" });
+    } catch (err) {
+      res.status(500).json({ msg: "Sunucu hatası" });
+    }
+  }
+);
+
+
+
 // Şifre değiştirme
 router.put(
   "/changepassword",

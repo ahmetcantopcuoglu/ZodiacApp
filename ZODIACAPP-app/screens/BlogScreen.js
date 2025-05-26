@@ -30,7 +30,7 @@ export default function Blog() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://192.168.1.2:3000/api/blogs", {
+      const res = await fetch("http://192.168.1.7:3000/api/blogs", {
         headers: {
           Authorization: `Bearer ${userToken}`,
           "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export default function Blog() {
     setLikeLoadingIds((prev) => [...prev, blogId]);
 
     try {
-      const res = await fetch(`http://192.168.1.2:3000/api/blogs/${blogId}/like`, {
+      const res = await fetch(`http://192.168.1.7:3000/api/blogs/${blogId}/like`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -93,24 +93,24 @@ export default function Blog() {
       Alert.alert("Hata", "Kullanıcı girişi yapılmamış.");
       return;
     }
-    if (!title.trim() || content.trim().length < 10) {
+    if (!title || content.length < 10) {
       Alert.alert("Hata", "Başlık boş olamaz ve içerik en az 10 karakter olmalı");
       return;
     }
 
     setPosting(true);
     try {
-      const res = await fetch("http://192.168.1.2:3000/api/blogs", {
+      const res = await fetch("http://192.168.1.7:3000/api/blogs", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title: title.trim(), content: content.trim() }),
+        body: JSON.stringify({ title: title, content: content }),
       });
-
-      const data = await res.json();
-
+          console.log(title,content);
+          const data = await res.json();
+          console.log(data);
       if (!res.ok) {
         if (data.errors) {
           Alert.alert("Hata", data.errors.map(e => e.msg).join("\n"));
@@ -121,14 +121,13 @@ export default function Blog() {
       }
 
       Alert.alert("Başarılı", "Blog oluşturuldu");
-      setTitle("");
-      setContent("");
-      fetchBlogs();
+      
+      setPosting(false);
+       await fetchBlogs();
     } catch (err) {
       Alert.alert("Hata", err.message);
-    } finally {
       setPosting(false);
-    }
+    } 
   }
 
   useEffect(() => {
