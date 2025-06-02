@@ -9,6 +9,7 @@ import HoroscopeScreen from './screens/HoroscopeScreen';
 import TarotCardSelectionScreen from './screens/TarotCardSelectionScreen';
 import TarotResultScreen from './screens/TarotResultScreen';
 import BlogScreen from './screens/BlogScreen';
+import SettingsScreen from './screens/SettingsScreen';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ export default function App() {
         <Stack.Screen name="TarotSelect" component={TarotCardSelectionScreen} />
       <Stack.Screen name="TarotResult" component={TarotResultScreen} />
       <Stack.Screen name="Blog" component={BlogScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -101,4 +101,28 @@ router.put(
   }
 );
 
+const upload = require("../middlewares/uploadImage");
+
+router.post(
+  "/upload-profile-image",
+  authMiddleware,
+  upload.single("profileImage"),
+  async (req, res) => {
+    try {
+      if (!req.file) return res.status(400).json({ msg: "Resim yüklenmedi" });
+
+      const user = await User.findById(req.user.userId);
+      if (!user) return res.status(404).json({ msg: "Kullanıcı bulunamadı" });
+
+      user.profileImage = `/uploads/profileImages/${req.file.filename}`;
+      await user.save();
+
+      res.json({ msg: "Profil fotoğrafı yüklendi", profileImage: user.profileImage });
+    } catch (err) {
+      res.status(500).json({ msg: "Sunucu hatası", error: err.message });
+    }
+  }
+);
+
+
 module.exports = router;

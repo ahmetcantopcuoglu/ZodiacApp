@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, ActivityIndicator, Button, Alert, TouchableOpacity, TextInput } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -10,6 +11,8 @@ export default function Blog() {
   const [content, setContent] = useState("");
   const [posting, setPosting] = useState(false);
   const [userToken, setUserToken] = useState(null); // Token burada saklanacak
+
+  
 
   // AsyncStorage'dan token'ı al
   const loadToken = async () => {
@@ -30,7 +33,7 @@ export default function Blog() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://192.168.1.7:3000/api/blogs", {
+      const res = await fetch('http://192.168.1.12:3000/api/blogs', {
         headers: {
           Authorization: `Bearer ${userToken}`,
           "Content-Type": "application/json",
@@ -60,7 +63,7 @@ export default function Blog() {
     setLikeLoadingIds((prev) => [...prev, blogId]);
 
     try {
-      const res = await fetch(`http://192.168.1.7:3000/api/blogs/${blogId}/like`, {
+      const res = await fetch('http://192.168.1.12:3000/api/blogs/${blogId}/like', {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -100,7 +103,7 @@ export default function Blog() {
 
     setPosting(true);
     try {
-      const res = await fetch("http://192.168.1.7:3000/api/blogs", {
+      const res = await fetch('http://192.168.1.12:3000/api/blogs', {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userToken}`,

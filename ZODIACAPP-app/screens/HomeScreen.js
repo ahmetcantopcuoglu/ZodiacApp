@@ -1,26 +1,66 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Modal,
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false);
-  const username = 'Ahmet Can';
+  const [profileImage, setProfileImage] = useState(null);
+  const username = route.params?.name || 'Misafir';
 
+  // AsyncStorage'dan profil fotoğrafını oku
+  useEffect(() => {
+    const loadProfileImage = async () => {
+      try {
+        const imageUri = await AsyncStorage.getItem('profileImage');
+        if (imageUri) {
+        const baseUrl = 'http://192.168.1.12:3000';
+        const fullUri = imageUri.startsWith('http') ? imageUri : baseUrl + imageUri;
+        setProfileImage(fullUri);
+      }
+      } catch (error) {
+        console.log('Profil fotoğrafı okunamadı', error);
+      }
+    };
+    loadProfileImage();
+  }, []);
 
-  // Çıkış fonksiyonu component içinde
+  // Header ayarları (profileImage değiştikçe güncelle)
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: 'Anasayfa',
+      headerTitleAlign: 'center',
+      headerLeft: () => null,
+     headerRight: () => (
+  <TouchableOpacity
+    onPress={() => setModalVisible(true)}
+    style={{ marginRight: 15 }}
+  >
+    {profileImage ? (
+      <Image
+        source={{ uri: profileImage }}
+        style={{
+          width: 32,
+          height: 32,
+          borderRadius: 16,
+          borderWidth: 1,
+          borderColor: '#2c3e50',
+        }}
+      />
+    ) : (
+      <Ionicons name="person-circle-outline" size={28} color="#2c3e50" />
+    )}
+  </TouchableOpacity>
+),
+    });
+  }, [navigation, profileImage]);
+
+  // Çıkış fonksiyonu
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('userToken');
-      setModalVisible(false); // Modalı kapat
-      // Navigation stack'ini resetleyip Login ekranına yönlendir
+      await AsyncStorage.removeItem('profileImage');
+      setModalVisible(false);
       navigation.reset({
         index: 0,
         routes: [{ name: 'Login' }],
@@ -29,19 +69,6 @@ export default function HomeScreen({ navigation }) {
       console.log('Çıkış yaparken hata:', error);
     }
   };
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: 'Anasayfa',
-      headerTitleAlign: 'center',
-      headerLeft: () => null,
-      headerRight: () => (
-        <TouchableOpacity onPress={() => setModalVisible(true)} style={{ marginRight: 15 }}>
-          <Ionicons name="person-circle-outline" size={28} color="#2c3e50" />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -59,7 +86,13 @@ export default function HomeScreen({ navigation }) {
         >
           <View style={styles.modalContainer}>
             <Text style={styles.usernameText}>{username}</Text>
-            <TouchableOpacity style={styles.modalButton}>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => {
+                setModalVisible(false);
+                navigation.navigate('Settings');
+              }}
+            >
               <Text style={styles.modalButtonText}>⚙️ Ayarlar</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.modalButton} onPress={handleLogout}>

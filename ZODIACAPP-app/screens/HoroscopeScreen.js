@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
+
 export default function HoroscopeScreen({ route }) {
   const { sign } = route.params;
   const [period, setPeriod] = useState('daily');
@@ -9,7 +10,7 @@ export default function HoroscopeScreen({ route }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
- 
+   
 
   const emojiMap = {
     Koç: '♈️',
@@ -59,7 +60,7 @@ export default function HoroscopeScreen({ route }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get(`http://192.168.1.7:3000/api/zodiac/horoscope`, {
+      const res = await axios.get('http://192.168.1.12:3000/api/zodiac/horoscope', {
         params: { sign, period },
       });
       setHoroscope(res.data.horoscope);

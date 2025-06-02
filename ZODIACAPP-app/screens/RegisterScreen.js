@@ -3,6 +3,8 @@ import { View, TextInput, Button, StyleSheet, Text, Alert, Platform, Pressable }
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 
+
+
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -10,9 +12,12 @@ const RegisterScreen = ({ navigation }) => {
   const [birthDate, setBirthDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
 
+  
+       
+
   const handleRegister = async () => {
     try {
-      const response = await axios.post('http://192.168.1.7:3000/api/auth/register', {
+      const response = await axios.post('http://192.168.1.12:3000/api/auth/register', {
         name,
         email,
         password,

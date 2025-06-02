@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import axios from 'axios';
 
+
+
+
 const emojiMap = {
   Koç: '♈️',
   Boğa: '♉️',
@@ -22,7 +25,7 @@ export default function ZodiacScreen({ navigation }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://192.168.1.7:3000/api/zodiac/signs') // Gerekirse IP'yi düzenle
+    axios.get('http://192.168.1.12:3000/api/zodiac/signs') // Gerekirse IP'yi düzenle
       .then(res => setSigns(res.data))
       .catch(err => setError('Burçlar yüklenemedi.'));
   }, []);

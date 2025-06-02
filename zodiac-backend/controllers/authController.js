@@ -71,7 +71,7 @@ exports.login = async (req,res) => {
 
         });
         
-        res.json({token});
+        res.json({ token, name: user.name });
     }
     catch(err){
         console.error(err);
