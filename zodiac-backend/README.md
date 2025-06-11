@@ -41,7 +41,6 @@ Bu proje, kullanıcıların burç uyumu, burç yorumları ve blog yazılarına e
 - JWT (jsonwebtoken)
 - bcryptjs
 - express-validator
-- dotenv
 
 ## 📦 Kurulum
 
