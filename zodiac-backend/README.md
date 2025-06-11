@@ -29,6 +29,7 @@ Bu proje, kullanıcıların burç uyumu, burç yorumları ve blog yazılarına e
 - Kullanıcı Kayıt & Giriş (JWT Authentication)
 - Günlük, Haftalık, Aylık ve Yıllık Burç Yorumları
 - Blog Yazıları Oluşturma, Listeleme, Beğenme
+- Kullanıcı adı,şifre değiştirme
 - Logger Middleware ile API logları
 - Input Validasyonları (express-validator)
 - Mongoose ile MongoDB veri yönetimi
